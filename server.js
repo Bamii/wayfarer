@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
-const { getVersionNumber } = require('./utils/helpers')
+const { getVersionNumber } = require('./utils/helpers');
 
 // init.
 const app = express();

@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
+const { getVersionNumber } = require('./utils/helpers');
 
 // init.
 const app = express();
@@ -22,7 +23,13 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get(`/api/v${getVersionNumber()}/`, () => {
+  res.send({ status: 'success', data: 'data' });
+});
+
 // Listening Port
-app.listen(8888, () => {
+const server = app.listen(8888, () => {
   debug(`Listening on port ${chalk.green('8888')}`);
 });
+
+module.exports.server = server;

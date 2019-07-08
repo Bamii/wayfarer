@@ -6,3 +6,6 @@ cache:
 node_js:
   - 'stable'
 install: yarn install
+branches:
+  only:
+  - /.*/

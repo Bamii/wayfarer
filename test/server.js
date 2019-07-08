@@ -1,5 +1,4 @@
-const { assert, should, expect } = require('chai');
-const server = require('../server');
+const { assert, should, expect } = require('chai')
 
 describe('My Server', function() {
   describe('#indexOf()', function() {

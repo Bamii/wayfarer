@@ -7,7 +7,7 @@
     "start": "DEBUG=app nodemon server.js",
     "test": "mocha",
     "prettier": "prettier --write '**/*.+(js|json|jsx|css)'",
-    "lint": "eslint src --fix",
+    "lint": "eslint utils --fix",
     "validate": "yarn run beautify && yarn run test",
     "beautify": "yarn run prettier && yarn run lint"
   },
@@ -27,6 +27,8 @@
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.2",
     "husky": "^3.0.0",
     "mocha": "^6.1.4",
     "morgan": "^1.9.1",

@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.get(`/api/v${getVersionNumber()}/`, () => {
-  res.send({ status: 'success', data: 'data' });
+  res.send({ status: 'success', data: 'data' })
 });
 
 // Listening Port

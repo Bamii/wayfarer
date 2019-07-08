@@ -41,7 +41,9 @@
     "delay": "2500"
   },
   "husky": {
-    "pre-commit": "yarn run beautify",
-    "pre-push": "yarn run test"
+    "hooks": {
+      "pre-commit": "yarn run beautify",
+      "pre-push": "yarn run test"
+    }
   }
 }

@@ -1,0 +1,13 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  emails: false
+node_js:
+  - 'stable'
+install: yarn install
+script: yarn run validate
+branches:
+  only: master

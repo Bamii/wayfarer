@@ -5,28 +5,31 @@
   "main": "server.js",
   "scripts": {
     "start": "DEBUG=app nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "prettier": "prettier --write '**/*.+(js|json|jsx|css)'",
     "lint": "eslint src --fix",
-    "validate": "yarn run prettier && yarn run lint"
+    "validate": "yarn run beautify && yarn run test",
+    "beautify": "yarn run prettier && yarn run lint"
   },
   "author": "Ayobami Ayo-Salami",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "chai": "^4.2.0",
     "chalk": "^2.4.2",
-    "debug": "^4.1.1",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
-    "morgan": "^1.9.1",
     "pug": "^2.0.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
+    "debug": "^4.1.1",
     "eslint": "^6.0.1",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
     "husky": "^3.0.0",
+    "mocha": "^6.1.4",
+    "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2"
   },
@@ -38,7 +41,7 @@
     "delay": "2500"
   },
   "husky": {
-    "pre-commit": "yarn run validate",
-    "pre-push": "yarn test"
+    "pre-commit": "yarn run beautify",
+    "pre-push": "yarn run test"
   }
 }

@@ -2,33 +2,32 @@ const express = require('express');
 const chalk = require('chalk');
 const debug = require('debug')('app');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
 const path = require('path');
-const { getVersionNumber } = require('./utils/helpers');
+const { getVersionNumber } = require('./src/utils/helpers');
+const routes = require('./src/routes');
 
 // init.
 const app = express();
 
 // MiddleWares.
 app.use(morgan('tiny'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ type: 'application/json' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
+// Views Engine
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
 // App routes
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
-app.get(`/api/v${getVersionNumber()}/`, () => {
-  res.send({ status: 'success', data: 'data' });
-});
+app.use(`/api/v${getVersionNumber()}/`, routes);
 
 // Listening Port
-const server = app.listen(8888, () => {
+const server = app.listen(8880, () => {
   debug(`Listening on port ${chalk.green('8888')}`);
 });
 

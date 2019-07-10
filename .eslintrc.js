@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'airbnb',
+  extends: ['airbnb', 'eslint-config-prettier'],
   parser: 'babel-eslint',
   rules: {
     strict: 0,

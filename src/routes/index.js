@@ -4,7 +4,7 @@ const auth = require('./auth');
 const booking = require('./booking');
 
 routes.get('/', (req, res) => {
-  res.send({ message: 'Welcome to the Wayfarer API' })
+  res.send({ message: 'Welcome to the Wayfarer API' });
 });
 
 routes.use('/auth', auth);

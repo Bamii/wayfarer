@@ -3,5 +3,5 @@ function getVersionNumber() {
 }
 
 module.exports = {
-  getVersionNumber,
+  getVersionNumber
 };

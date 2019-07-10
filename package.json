@@ -46,7 +46,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn run beautify",
+      "pre-commit": "yarn run prettier && git add && yarn run lint",
       "pre-push": [
         "yarn run test"
       ]

@@ -1,12 +1,17 @@
-const UserRouter = require('express').Router();
+const Booking = require('express').Router();
 
-UserRouter.get('/', (req, res) => {
+Booking.post('/', (req, res) => {
   res.send({ status: 'okay', data: 'booking' });
 });
 
-UserRouter.get('/:id', (req, res) => {
+Booking.get('/', (req, res) => {
+  const { id } = req.params;
+  res.send({ status: 'okay', data: `you requested for booking ${id}` });
+});
+
+Booking.delete('/:bookingid', (req, res) => {
   const { id } = req.params;
   res.send({ status: 'okay', data: `you requested for user ${id}` });
 });
 
-module.exports = UserRouter;
+module.exports = Booking;

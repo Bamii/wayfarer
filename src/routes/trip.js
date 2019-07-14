@@ -1,12 +1,21 @@
-const UserRouter = require('express').Router();
+const Trip = require('express').Router();
 
-UserRouter.get('/', (req, res) => {
+Trip.post('/', (req, res) => {
   res.send({ status: 'okay', data: 'trip' });
 });
 
-UserRouter.get('/:id', (req, res) => {
+Trip.get('/', (req, res) => {
+  const { id } = req.params;
+  res.send({ status: 'okay', data: `you requested for trip ${id}` });
+});
+
+Trip.patch('/:tripid', (req, res) => {
   const { id } = req.params;
   res.send({ status: 'okay', data: `you requested for user ${id}` });
 });
 
-module.exports = UserRouter;
+Trip.get('/:destination', (req, res) => {});
+
+Trip.get('/:origin', (req, res) => {});
+
+module.exports = Trip;

@@ -1,12 +1,18 @@
-const auth = require('express').Router();
+const Auth = require('express').Router();
+const debug = require('debug')('app:auth-routes');
+const passport = require('passport');
+const { signin, signup, authenticate } = require('../controllers/auth_controller');
+const { checkForValidPath } = require('../middlewares');
+const { buildResponse } = require('../utils/helpers');
 
-auth.get('/', (req, res) => {
-  res.send({ status: 'okay', data: 'auth' });
+// middlewares
+Auth.use(checkForValidPath(['signin', 'signup', 'see']));
+
+// routes
+Auth.post('/signin', signin);
+Auth.post('/signup', signup);
+Auth.get('/see', authenticate, (req, res) => {
+  res.send(buildResponse('success', 'YAYYY'));
 });
 
-auth.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.send({ status: 'okay', data: `you requested for user ${id}` });
-});
-
-module.exports = auth;
+module.exports = Auth;

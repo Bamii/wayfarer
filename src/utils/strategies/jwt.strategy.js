@@ -12,8 +12,8 @@ var opts = {
 
 module.exports = () => {
   passport.use(
-    new Strategy(opts, ({ id }, done) => {
-      connection.query(SEARCH_USER_BY_ID_QUERY, [id], (err, res) => {
+    new Strategy(opts, ({ user_id }, done) => {
+      connection.query(SEARCH_USER_BY_ID_QUERY, [user_id], (err, res) => {
         const [user] = res.rows;
 
         if (err || !user) {

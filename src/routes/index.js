@@ -5,10 +5,10 @@ const booking = require('./booking');
 const { checkForValidPath } = require('../middlewares');
 
 // Routes Middleware.
-routes.use(checkForValidPath(['/', 'auth', 'trips']));
-routes.get('/', (req, res) => res.send({ message: 'Welcome to the Wayfarer API!' }));
+// routes.use(checkForValidPath(['/', 'auth', 'trips']));
 
 // routes
+routes.get('/', (req, res) => res.send({ message: 'Welcome to the Wayfarer API!' }));
 routes.use('/auth', auth);
 routes.use('/trips', trip);
 routes.use('/bookings', booking);

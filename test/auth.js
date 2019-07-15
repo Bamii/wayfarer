@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 
 const mockData = {
   signup: {
-    email: 'bzadjkwepmi@a.com',
+    email: 'bzepmi@ffsaa.com',
     password: 'random-string',
     first_name: 'ayobami',
     last_name: 'salami',
@@ -24,7 +24,7 @@ const mockData = {
 
 describe('User', function() {
   describe('/POST /auth/signin', function() {
-    it('it should sign the user in', function(done) {
+    it('it should sign the user in', done => {
       chai
         .request(server)
         .post(`${baseURI}/signin`)
@@ -48,7 +48,7 @@ describe('User', function() {
         });
     });
 
-    it('it should not sign the user in if there are ANY fields missing.', function(done) {
+    it('it should not sign the user in if there are ANY fields missing.', done => {
       const mockDataClone = Object.assign({}, mockData.signin);
       delete mockDataClone.email;
 
@@ -72,11 +72,6 @@ describe('User', function() {
           missingFields.should.be.an('array');
           done();
         });
-    });
-
-    it('it should not sign the user in if theres no password field', function(done) {
-      expect('1').to.equal('1');
-      done();
     });
   });
 
@@ -143,7 +138,7 @@ describe('User', function() {
           should.not.exist(err);
           should.not.exist(err);
           res.redirects.length.should.eql(0);
-          // res.type.should.eql('application/json');
+          res.type.should.eql('application/json');
           res.status.should.eql(200);
 
           status.should.eql('error');

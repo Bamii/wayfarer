@@ -1,5 +1,5 @@
-const { buildResponse } = require('../utils/helpers');
 const debug = require('debug')('app:middlewares');
+const { buildResponse } = require('../utils/helpers');
 
 // TODO::
 function checkForValidPath(paths) {

@@ -2,7 +2,7 @@ const routes = require('express').Router();
 const trip = require('./trip');
 const auth = require('./auth');
 const booking = require('./booking');
-const { checkForValidPath } = require('../middlewares');
+// const { checkForValidPath } = require('../middlewares');
 
 // Routes Middleware.
 // routes.use(checkForValidPath(['/', 'auth', 'trips']));

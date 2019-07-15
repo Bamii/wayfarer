@@ -1,6 +1,6 @@
 const Auth = require('express').Router();
 const { signin, signup, authenticate } = require('../controllers/auth_controller');
-const { checkForValidPath } = require('../middlewares');
+// const { checkForValidPath } = require('../middlewares');
 const { buildResponse } = require('../utils/helpers');
 
 // middlewares

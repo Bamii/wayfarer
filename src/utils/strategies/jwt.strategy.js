@@ -5,7 +5,7 @@ const connection = require('../../../connection');
 const { comparePassword } = require('../helpers');
 const { SEARCH_USER_BY_ID_QUERY } = require('../db_constants');
 
-var opts = {
+const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: 'wayfarer'
 };

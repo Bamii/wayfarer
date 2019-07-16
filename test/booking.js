@@ -29,7 +29,7 @@ let token;
 let na_token; // non-admin
 let id;
 
-describe('Booking', function () {
+describe.skip('Booking', function () {
   this.beforeAll('first_hook', (done) => {
     chai
       .request(server)

@@ -21,7 +21,7 @@ function bookingController() {
     
     if (missingFields.length > 0) {
       res
-        .status(200)
+        .status(500)
         .send(
           buildResponse('error', `${missingFields.length} field(s) are missing!`, { missingFields })
         );
@@ -83,7 +83,7 @@ function bookingController() {
 
     if (missingFields.length > 0) {
       res
-        .status(200)
+        .status(500)
         .send(
           buildResponse('error', `${missingFields.length} field(s) are missing!`, { missingFields })
         );

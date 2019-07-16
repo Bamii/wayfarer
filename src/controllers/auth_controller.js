@@ -49,7 +49,7 @@ function authController() {
               });
             })
             // client.catch
-            .catch(e => res.status(200).send(buildResponse('error', e.message)));
+            .catch(e => res.status(500).send(buildResponse('error', e.message)));
         }
       });
     }

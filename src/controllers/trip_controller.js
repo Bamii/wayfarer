@@ -21,7 +21,7 @@ function tripController() {
 
     if (missingFields.length > 0) {
       res
-        .status(200)
+        .status(500)
         .send(
           buildResponse('error', `${missingFields.length} field(s) are missing!`, { missingFields })
         );
@@ -34,7 +34,7 @@ function tripController() {
             } else {
               client.query(CREATE_TRIP_QUERY, [bus_id, origin, trip_date, fare, status, destination])
                 .then(({ rows: [trip] }) => {
-                  res.statud(200).send(buildResponse('success', trip));
+                  res.status(200).send(buildResponse('success', trip));
                 })
             }
           })
@@ -64,7 +64,7 @@ function tripController() {
         .then(({ rows }) => {
           res.status(200).send(buildResponse('success', "Trip cancelled successfully"));
         })
-        .catch(e => res.status(500).send('Internal Server Error!'))
+        .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
     } else {
       res.status(401).send(buildResponse('error', "Authorization required! You're not allowed to view this endpoint!"));
     }
@@ -81,7 +81,7 @@ function tripController() {
         debug(rows);
         res.status(200).send(buildResponse('success', rows))
       })
-      .catch(e => res.status(500).send('Internal Server Error!'))
+      .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
   }
 
   return {

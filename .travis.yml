@@ -10,4 +10,4 @@ install: yarn install
 services:
   - postgresql
 script:
-  - yarn run test
+  - yarn run test-travis

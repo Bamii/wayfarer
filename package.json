@@ -6,6 +6,7 @@
   "scripts": {
     "start": "DEBUG=app,app:* nodemon server.js",
     "test": "mocha",
+    "test-travis": "mocha --exit",
     "prettier": "prettier '**/*.+(js|json|jsx|css)'",
     "format": "yarn run prettier -- --write",
     "lint": "eslint src --fix",

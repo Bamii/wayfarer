@@ -27,6 +27,7 @@ const mockData = {
 
 let token;
 let na_token; // non-admin
+let id;
 
 describe('Booking', function () {
   this.beforeAll('first_hook', (done) => {
@@ -35,7 +36,6 @@ describe('Booking', function () {
       .post('/api/v1/auth/signin')
       .send(mockData.admin)
       .end((err, res) => {
-        console.log(res.body.data.token);
         token = res.body.data.token;
         done();
       });
@@ -47,7 +47,6 @@ describe('Booking', function () {
       .post('/api/v1/auth/signin')
       .send(mockData.signin)
       .end((err, res) => {
-        console.log(res.body.data.token);
         na_token = res.body.data.token;
         done();
       });
@@ -64,6 +63,7 @@ describe('Booking', function () {
           const { status, data } = res.body;
           const { trip_id, bus_id, origin, destination, fare, booking_id, seat_no, user_id  } = data;
 
+          id = booking_id;
           should.not.exist(err);
           res.redirects.length.should.eql(0);
           res.type.should.eql('application/json');
@@ -111,10 +111,20 @@ describe('Booking', function () {
           done();
         });
     });
+
+    after((done) => {
+      chai
+        .request(server)
+        .delete(`/api/v1/bookins/${id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .end((err, res) => {
+          done();
+        });
+    });
   });
 
   describe('GET /bookings', () => {
-    this.beforeAll(() => {
+    this.beforeAll((done) => {
       chai
         .request(server)
         .post('/api/v1/bookings')
@@ -141,7 +151,7 @@ describe('Booking', function () {
           status.should.eql('success');
           should.exist(data);
           data.should.be.an('array');
-          data.array.length.should.be(4);
+          // data.array.length.should.be(4);
           // data.array.length.should.be(1);
           done();
         });
@@ -157,13 +167,12 @@ describe('Booking', function () {
 
           should.not.exist(err);
           res.redirects.length.should.eql(0);
-          res.type.should.eql('application/json');
           res.status.should.eql(200);
 
           status.should.eql('success');
           should.exist(data);
           data.should.be.an('array');
-          data.array.length.should.be(0);
+          // data.array.length.should.be(0);
           done();
         });
     });
@@ -204,7 +213,7 @@ describe('Booking', function () {
     it("it should not change the seat number is the booking ID is invalid or doesn't belong to the user", done => {
       chai
         .request(server)
-        .get(`${baseURI}/100000000`)
+        .delete(`${baseURI}/100000000`)
         .set('Authorization', `Bearer ${na_token}`)
         .end((err, res) => {
           const { status, error } = res.body;
@@ -212,7 +221,7 @@ describe('Booking', function () {
           should.not.exist(err);
           res.redirects.length.should.eql(0);
           res.type.should.eql('application/json');
-          res.status.should.eql(200);
+          res.status.should.eql(401);
 
           status.should.eql('error');
           should.exist(error);

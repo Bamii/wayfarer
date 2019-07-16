@@ -23,7 +23,7 @@ const mockData = {
   }
 };
 
-describe.skip('User', function() {
+describe('User', function() {
   describe('/POST /auth/signin', function() {
     it('it should sign the user in', done => {
       chai

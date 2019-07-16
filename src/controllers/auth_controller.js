@@ -13,7 +13,7 @@ function authController() {
   function signup(req, res) {
     const { email, password, first_name, last_name, is_admin } = req.body;
     const fields = ['email', 'first_name', 'last_name', 'password', 'is_admin'];
-    const user = [email, first_name, last_name, hashPassword({ password, saltingRounds: 10 })];
+    const userFields = [email, first_name, last_name, hashPassword({ password, saltingRounds: 10 }), is_admin];
     const missingFields = findMissingFields(req.body, fields);
 
     if (missingFields.length > 0) {
@@ -36,9 +36,9 @@ function authController() {
         } else {
           // 2. create new user if one doesn't exist already.
           client
-            .query(ADD_USER_QUERY, user)
+            .query(ADD_USER_QUERY, userFields)
             .then(({ rows: [user] }) => {
-              const u = { user_id: user.id, is_admin: user.is_admin, iat: Date.now() };
+              const u = { user_id: user.id, is_admin: !!user.is_admin, iat: Date.now() };
 
               req.login(user, () => {
                 res

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+require('dotenv').config();
 const { getVersionNumber } = require('./src/utils/helpers');
 const routes = require('./src/routes');
 

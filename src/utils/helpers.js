@@ -1,11 +1,13 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-function getVersionNumber() {
-  return 1;
+function getType(o) {
+  if (o === null) return "null";
+  if (o === undefined) return "undefined";
+  return Object.prototype.toString.call(o).slice(8, -1);
 }
 
-function queryBuilder() {
+function getVersionNumber() {
   return 1;
 }
 
@@ -28,7 +30,7 @@ function buildResponse(type, data, extras) {
 
   d[type === 'success' ? 'data' : 'error'] = data;
 
-  if (extras) {
+  if (getType(extras).toLowerCase() === 'object') {
     const names = Object.getOwnPropertyNames(extras);
     names.forEach(name => (d[name] = extras[name]));
   }
@@ -51,7 +53,6 @@ function generateToken(options) {
 
 module.exports = {
   getVersionNumber,
-  queryBuilder,
   findMissingFields,
   buildResponse,
   hashPassword,

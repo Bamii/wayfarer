@@ -1,17 +1,19 @@
 const Booking = require('express').Router();
+const {
+  createBooking,
+  getAllBookings,
+  deleteBooking,
+  changeSeat
+} = require('../controllers/booking_controller');
+const { authenticate } = require('../controllers/auth_controller');
 
-Booking.post('/', (req, res) => {
-  res.send({ status: 'okay', data: 'booking' });
-});
+// Routes
+Booking.use(authenticate);
+Booking.post('/', createBooking);
+Booking.get('/', getAllBookings);
+Booking.delete('/:bookingId', deleteBooking);
 
-Booking.get('/', (req, res) => {
-  const { id } = req.params;
-  res.send({ status: 'okay', data: `you requested for booking ${id}` });
-});
-
-Booking.delete('/:bookingid', (req, res) => {
-  const { id } = req.params;
-  res.send({ status: 'okay', data: `you requested for user ${id}` });
-});
+// Extras
+Booking.patch('/:bookingId', changeSeat);
 
 module.exports = Booking;

@@ -48,7 +48,7 @@ function authController() {
                   .send(buildResponse('success', { token: generateToken({ payload: u }), ...u }));
               });
             })
-            //client.catch
+            // client.catch
             .catch(e => res.status(200).send(buildResponse('error', e.message)));
         }
       });

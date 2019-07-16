@@ -35,7 +35,7 @@ function bookingController() {
             client.query(CREATE_BOOKING_QUERY, [user_id, trip_id])
               .then(({ rows: [booking] }) => {
                 res.status(200).send(buildResponse('success', { ...trip, ...booking }));
-                //first_name, last_name, email. ::TODO::
+                // first_name, last_name, email. ::TODO::
               })
           }
         })
@@ -53,7 +53,7 @@ function bookingController() {
         .then(({ rows }) => {
           res.status(200).send(buildResponse('success', rows));
         })
-        .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')));
+        .catch(() => res.status(500).send(buildResponse('error', 'Internal Server Error!')));
   }
 
   function deleteBooking(req, res) {
@@ -62,18 +62,16 @@ function bookingController() {
 
       client.query(SEARCH_BOOKINGS_BY_ID_AND_USER_ID_QUERY, [bookingId, user_id])
         .then(({ rows }) => {
-          const [booking] = rows;
-
           if (rows.length === 0) {
             res.status(401).send(buildResponse('error', "You have no booking with this ID on our system!"));
           } else {
             client.query(DELETE_BOOKING_QUERY, [bookingId])
-              .then(({ rows: [booking] }) => {
+              .then(() => {
                 res.status(200).send(buildResponse('success', "Booking deleted successfully"));
-              });
+              })
           }
         })
-        .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
+        .catch(() => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
   }
 
   function changeSeat(req, res) {
@@ -95,6 +93,7 @@ function bookingController() {
           if (rows.length === 0) {
             res.status(200).send(buildResponse('error', 'You have no booking with this ID on our system!'))
           } else {
+
             client.query(UPDATE_BOOKING_SEAT_QUERY, [bookingId, seat_no])
               .then(({ rows }) => {
                 debug(rows);

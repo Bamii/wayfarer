@@ -58,9 +58,8 @@ function tripController() {
   function cancelTrip(req, res) {
     const { user_id, is_admin } = req.user;
     const { tripId } = req.params;
-    const a = true;
 
-    if (a) {
+    if (is_admin) {
       client.query(UPDATE_TRIP_STATUS_QUERY, [tripId, 0])
         .then(({ rows }) => {
           res.status(200).send(buildResponse('success', "Trip cancelled successfully"));

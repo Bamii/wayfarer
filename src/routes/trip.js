@@ -1,13 +1,10 @@
 const Trip = require('express').Router();
+const { createTrip, getAll } = require('../controllers/trip_controller');
+const { authenticate } = require('../controllers/auth_controller');
 
-Trip.post('/', (req, res) => {
-  res.send({ status: 'okay', data: 'trip' });
-});
-
-Trip.get('/', (req, res) => {
-  const { id } = req.params;
-  res.send({ status: 'okay', data: `you requested for trip ${id}` });
-});
+// Routes
+Trip.post('/', authenticate, createTrip);
+Trip.get('/', authenticate, getAll);
 
 Trip.patch('/:tripid', (req, res) => {
   const { id } = req.params;

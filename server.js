@@ -9,6 +9,7 @@ const path = require('path');
 require('dotenv').config();
 const { getVersionNumber } = require('./src/utils/helpers');
 const routes = require('./src/routes');
+const port = process.env.PORT || 3000;
 
 // init.
 const app = express();
@@ -42,8 +43,8 @@ app.set('view engine', 'pug');
 app.use(`/api/v${getVersionNumber()}/`, routes);
 
 // Listening Port
-const server = app.listen(8880, () => {
-  debug(`Listening on port ${chalk.green('8888')}`);
+const server = app.listen(port, () => {
+  debug(`Listening on port ${chalk.green(port)}`);
 });
 
 module.exports = server;

@@ -1,7 +1,7 @@
 const passport = require('passport');
 const debug = require('debug')('app:trip_controller');
 const client = require('../../connection');
-const { buildResponse } = require('../utils/helpers');
+const { buildResponse, findMissingFields } = require('../utils/helpers');
 const {
   CREATE_TRIP_QUERY,
   SEARCH_TRIPS_QUERY,
@@ -16,22 +16,32 @@ function tripController() {
   function createTrip(req, res) {
     const { bus_id, origin, destination, trip_date, fare, status } = req.body;
     const { is_admin } = req.user;
+    const fields = ['bus_id', 'origin', 'destination', 'trip_date', 'fare', 'status'];
+    const missingFields = findMissingFields(req.body, fields);
 
-    if (is_admin) {
-      client.query(SEARCH_BUS_BY_ID_QUERY, [bus_id])
-        .then(({ rows }) => {
-          if (rows.length === 0) {
-            res.status(200).send(buildResponse('error', "The bus_is is invalid!"));
-          } else {
-            client.query(CREATE_TRIP_QUERY, [bus_id, origin, trip_date, fare, status, destination])
-              .then(({ rows: [trip] }) => {
-                res.statud(200).send(buildResponse('success', trip));
-              })
-          }
-        })
-        .catch((err) => debug(err.message));
+    if (missingFields.length > 0) {
+      res
+        .status(200)
+        .send(
+          buildResponse('error', `${missingFields.length} field(s) are missing!`, { missingFields })
+        );
     } else {
-      res.status(401).send(buildResponse('error', "Authorization required! You're not allowed to view this endpoint!"))
+      if (is_admin) {
+        client.query(SEARCH_BUS_BY_ID_QUERY, [bus_id])
+          .then(({ rows }) => {
+            if (rows.length === 0) {
+              res.status(200).send(buildResponse('error', "The bus_is is invalid!"));
+            } else {
+              client.query(CREATE_TRIP_QUERY, [bus_id, origin, trip_date, fare, status, destination])
+                .then(({ rows: [trip] }) => {
+                  res.statud(200).send(buildResponse('success', trip));
+                })
+            }
+          })
+          .catch((err) => debug(err.message));
+      } else {
+        res.status(401).send(buildResponse('error', "Authorization required! You're not allowed to view this endpoint!"))
+      }
     }
   }
 

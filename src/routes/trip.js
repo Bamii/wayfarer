@@ -1,9 +1,16 @@
 const Trip = require('express').Router();
-const { createTrip, getAllTrips, cancelTrip, filterTrip } = require('../controllers/trip_controller');
+const {
+  createTrip,
+  getAllTrips,
+  cancelTrip,
+  filterTrip
+} = require('../controllers/trip_controller');
 const { authenticate } = require('../controllers/auth_controller');
 
-// Routes
+// Middleware
 Trip.use(authenticate);
+
+// Routes
 Trip.post('/', createTrip);
 Trip.get('/', getAllTrips);
 Trip.patch('/:tripId', cancelTrip);

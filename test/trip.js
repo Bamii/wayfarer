@@ -32,4 +32,30 @@ describe('Trip', function() {
       done();
     });
   });
+
+  describe('PATCH /trips/:tripsId', () => {
+    it('it should cancel the trip if the user is an admin', done => {
+      done();
+    });
+
+    it('it should not cancel the trip if the user is not an admin', done => {
+      done();
+    });
+
+    it('it should return an error if the the Trip ID does not exist in the db', done => {
+      done();
+    })
+  });
+
+  describe('GET /destination/:destination', () => {
+    it('it should return all the trips with the target destination', done => {
+      done();
+    });
+  })
+
+  describe('GET /origin/:origin', () => {
+    it('it should return all the trips with the target origin', done => {
+      done();
+    });
+  })
 })

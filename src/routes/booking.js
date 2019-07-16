@@ -7,8 +7,10 @@ const {
 } = require('../controllers/booking_controller');
 const { authenticate } = require('../controllers/auth_controller');
 
-// Routes
+// Middleware
 Booking.use(authenticate);
+
+// Routes
 Booking.post('/', createBooking);
 Booking.get('/', getAllBookings);
 Booking.delete('/:bookingId', deleteBooking);

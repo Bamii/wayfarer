@@ -1,10 +1,11 @@
 {
-  "name": "chrismillsjs",
+  "name": "wayfarer",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "DEBUG=app,app:* nodemon server.js",
+    "start:dev": "DEBUG=app,app:* nodemon server.js",
+    "start": "NODE_ENV=prod node server.js",
     "test": "mocha --exit --timeout 10000",
     "test-travis": "mocha --exit",
     "prettier": "prettier '**/*.+(js|json|jsx|css)'",

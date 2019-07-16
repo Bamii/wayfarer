@@ -16,7 +16,7 @@ function findMissingFields(data, fields) {
   const d = { ...data };
   const r = [];
 
-  for (let i of fields) {
+  for (const i of fields) {
     if (Object.keys(d).find(e => e === i) === undefined) {
       r.push(i);
     }

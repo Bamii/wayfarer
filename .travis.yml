@@ -11,5 +11,6 @@ services:
   - postgresql
 before_script:
   - psql --host='ec2-174-129-226-232.compute-1.amazonaws.com' --port=5432 --username='nsngswqcrqecjy' --password --dbname='d185k31arfammj'
+  - process.env.PGPASSWORD
 script:
   - yarn run test

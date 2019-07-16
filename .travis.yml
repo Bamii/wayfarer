@@ -10,6 +10,6 @@ install: yarn install
 services:
   - postgresql
 before_script:
-  - psql --host='ec2-174-129-226-232.compute-1.amazonaws.com' --port=5432 --username='nsngswqcrqecjy' --password=process.env.PGPASSWORD --dbname='d185k31arfammj'
+  - psql --host='ec2-174-129-226-232.compute-1.amazonaws.com' --port=5432 --username='nsngswqcrqecjy' --password --dbname='d185k31arfammj'
 script:
   - yarn run test

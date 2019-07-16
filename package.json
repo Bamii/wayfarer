@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "DEBUG=app,app:* nodemon server.js",
-    "test": "mocha",
+    "test": "mocha --exit --timeout 10000",
     "test-travis": "mocha --exit",
     "prettier": "prettier '**/*.+(js|json|jsx|css)'",
     "format": "yarn run prettier -- --write",

@@ -13,28 +13,30 @@ function authController() {
   function signup(req, res) {
     const { email, password, first_name, last_name, is_admin } = req.body;
     const fields = ['email', 'first_name', 'last_name', 'password', 'is_admin'];
-    const userFields = [email, first_name, last_name, hashPassword({ password, saltingRounds: 10 }), is_admin];
     const missingFields = findMissingFields(req.body, fields);
-
+    
     if (missingFields.length > 0) {
       // Send error message if there are missing fields.
       res
         .status(200)
         .send(
           buildResponse('error', `${missingFields.length} field(s) are missing!`, { missingFields })
-        );
-    } else {
-      // Check if a user already exists
-      // 1. if not, create a new one and send a success response to the user
-      // 2. if one exists, send an error message to the user.
-      client.query(SEARCH_USER_BY_EMAIL_QUERY, [email]).then(({ rows }) => {
-        if (rows.length > 0) {
-          // 1. send error message if a user with the same email already exists.
-          res
+          );
+      } else {
+        // Check if a user already exists
+        // 1. if not, create a new one and send a success response to the user
+        // 2. if one exists, send an error message to the user.
+        client.query(SEARCH_USER_BY_EMAIL_QUERY, [email]).then(({ rows }) => {
+          debug(rows);
+          if (rows.length > 0) {
+            // 1. send error message if a user with the same email already exists.
+            res
             .status(200)
             .send(buildResponse('error', 'This email exists already in our database.'));
-        } else {
+          } else {
+
           // 2. create new user if one doesn't exist already.
+          const userFields = [email, first_name, last_name, hashPassword({ password, saltingRounds: 10 }), is_admin];
           client
             .query(ADD_USER_QUERY, userFields)
             .then(({ rows: [user] }) => {

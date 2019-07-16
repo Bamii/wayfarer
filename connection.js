@@ -1,13 +1,15 @@
 const { Client, Pool } = require('pg');
+require('dotenv').config();
 
-const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'wayfarer',
-  password: 'Dhaiv335.',
-  port: '5432'
+const LocalClient = new Client({
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: '5432',
+  ssl: true
 });
 
-client.connect();
+LocalClient.connect();
 
-module.exports = client;
+module.exports = LocalClient;

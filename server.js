@@ -7,9 +7,12 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
+
 const { getVersionNumber } = require('./src/utils/helpers');
 const routes = require('./src/routes');
 const port = process.env.PORT || 3000;
+const { middleware } = require('./src/middlewares');
+const { authenticate } = require('./src/controllers/auth_controller');
 
 // init.
 const app = express();
@@ -29,6 +32,17 @@ app.use(
 );
 
 require('./src/utils/passport')(app);
+
+app.use(
+  middleware({
+    app,
+    baseUrl: '/api/v1',
+    auth: {
+      middleware: authenticate,
+      paths: ['/auth/teapot']
+    }
+  })
+);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));

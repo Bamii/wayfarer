@@ -16,13 +16,12 @@ module.exports = () => {
       connection.query(SEARCH_USER_BY_ID_QUERY, [user_id], (err, res) => {
         const [user] = res.rows;
 
-        if (err || !user) {
-          done(null, false);
-        }
-
         if (user) {
           done(null, user);
+          return;
         }
+
+        done(null, false);
       });
     })
   );

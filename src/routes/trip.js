@@ -8,7 +8,7 @@ const {
 const { authenticate } = require('../controllers/auth_controller');
 
 // Middleware
-Trip.use(authenticate);
+// Trip.use(authenticate);
 
 // Routes
 Trip.post('/', createTrip);

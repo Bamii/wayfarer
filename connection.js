@@ -1,4 +1,6 @@
 const { Client, Pool } = require('pg');
+const debug = require('debug')('conn');
+
 require('dotenv').config();
 
 const LocalClient = new Client({

@@ -1,31 +1,33 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-function getType(o) {
-  if (o === null) return "null";
-  if (o === undefined) return "undefined";
-  return Object.prototype.toString.call(o).slice(8, -1);
-}
+const getVersionNumber = () => 1;
 
-function getVersionNumber() {
-  return 1;
-}
+const getType = o =>
+  Object.prototype.toString
+    .call(o)
+    .split(' ')[1]
+    .slice(0, -1)
+    .toLowerCase();
 
-function findMissingFields(data, fields) {
-  const f = [...fields];
-  const d = { ...data };
-  const r = [];
+const is = (type, value) => lowerCase(getType(value)) === lowerCase(type);
 
-  for (const i of fields) {
-    if (Object.keys(d).find(e => e === i) === undefined) {
-      r.push(i);
-    }
-  }
+const lowerCase = val => val.lowerCase();
 
-  return r;
-}
+const findMissingFields = (data, fields) =>
+  fields.reduce((acc, curr) => (!data.hasOwnProperty(curr) ? acc.concat(curr) : acc), []);
 
-function buildResponse(type, data, extras) {
+const existsIn = (el, arr) => (arr.find(ele => ele === el) === undefined ? true : false);
+
+// Password utilities
+const hashPassword = ({ password, saltingRounds = 10 }) => bcrypt.hashSync(password, saltingRounds);
+
+const comparePassword = (text, hash) => bcrypt.compareSync(text, hash);
+
+const generateToken = ({ payload, secret = 'wayfarer' }) => jwt.sign(payload, secret);
+
+// API service utilities
+const buildResponse = (type, data, extras) => {
   const d = { status: type };
 
   d[type === 'success' ? 'data' : 'error'] = data;
@@ -35,21 +37,7 @@ function buildResponse(type, data, extras) {
     names.forEach(name => (d[name] = extras[name]));
   }
   return d;
-}
-
-function hashPassword({ password, saltingRounds = 10 }) {
-  return bcrypt.hashSync(password, saltingRounds);
-}
-
-function comparePassword(text, hash) {
-  return bcrypt.compareSync(text, hash);
-}
-
-function generateToken(options) {
-  const { payload, secret = 'wayfarer', jwtOpts } = options;
-
-  return jwt.sign(payload, secret);
-}
+};
 
 module.exports = {
   getVersionNumber,
@@ -57,5 +45,7 @@ module.exports = {
   buildResponse,
   hashPassword,
   comparePassword,
-  generateToken
+  generateToken,
+  is,
+  existsIn
 };

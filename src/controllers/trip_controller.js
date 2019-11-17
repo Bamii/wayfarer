@@ -9,7 +9,7 @@ const {
   UPDATE_TRIP_STATUS_QUERY,
   SEARCH_TRIPS_BY_DESTINATION_QUERY,
   SEARCH_TRIPS_BY_ORIGIN_QUERY,
-  SEARCH_TRIPS_BY_DIRECTION_QUERY,
+  SEARCH_TRIPS_BY_DIRECTION_QUERY
 } = require('../utils/db_constants');
 
 function tripController() {
@@ -27,28 +27,36 @@ function tripController() {
         );
     } else {
       if (is_admin) {
-        client.query(SEARCH_BUS_BY_ID_QUERY, [bus_id])
+        client
+          .query(SEARCH_BUS_BY_ID_QUERY, [bus_id])
           .then(({ rows }) => {
             if (rows.length === 0) {
-              res.status(200).send(buildResponse('error', "The bus_is is invalid!"));
+              res.status(200).send(buildResponse('error', 'The bus_is is invalid!'));
             } else {
-              client.query(CREATE_TRIP_QUERY, [bus_id, origin, trip_date, fare, status, destination])
+              client
+                .query(CREATE_TRIP_QUERY, [bus_id, origin, trip_date, fare, status, destination])
                 .then(({ rows: [trip] }) => {
                   res.status(200).send(buildResponse('success', trip));
-                })
+                });
             }
           })
-          .catch((err) => debug(err.message));
+          .catch(err => debug(err.message));
       } else {
-        res.status(401).send(buildResponse('error', "Authorization required! You're not allowed to view this endpoint!"))
+        res
+          .status(401)
+          .send(
+            buildResponse(
+              'error',
+              "Authorization required! You're not allowed to view this endpoint!"
+            )
+          );
       }
     }
   }
 
   function getAllTrips(req, res) {
-    const { user_id, is_admin } = req.user;
-
-    client.query(SEARCH_TRIPS_QUERY)
+    client
+      .query(SEARCH_TRIPS_QUERY)
       .then(({ rows }) => {
         res.status(200).send(buildResponse('success', rows));
       })
@@ -60,13 +68,21 @@ function tripController() {
     const { tripId } = req.params;
 
     if (is_admin) {
-      client.query(UPDATE_TRIP_STATUS_QUERY, [tripId, 0])
+      client
+        .query(UPDATE_TRIP_STATUS_QUERY, [tripId, 0])
         .then(({ rows }) => {
-          res.status(200).send(buildResponse('success', "Trip cancelled successfully"));
+          res.status(200).send(buildResponse('success', 'Trip cancelled successfully'));
         })
-        .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
+        .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')));
     } else {
-      res.status(401).send(buildResponse('error', "Authorization required! You're not allowed to view this endpoint!"));
+      res
+        .status(401)
+        .send(
+          buildResponse(
+            'error',
+            "Authorization required! You're not allowed to view this endpoint!"
+          )
+        );
     }
   }
 
@@ -75,21 +91,20 @@ function tripController() {
     const QUERY = destination ? SEARCH_TRIPS_BY_DESTINATION_QUERY : SEARCH_TRIPS_BY_ORIGIN_QUERY;
     const location = destination ? destination : origin;
 
-
-    client.query(QUERY, [location])
+    client
+      .query(QUERY, [location])
       .then(({ rows }) => {
-        debug(rows);
-        res.status(200).send(buildResponse('success', rows))
+        res.status(200).send(buildResponse('success', rows));
       })
-      .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')))
+      .catch(e => res.status(500).send(buildResponse('error', 'Internal Server Error!')));
   }
 
   return {
     createTrip,
     cancelTrip,
     filterTrip,
-    getAllTrips,
-  }
+    getAllTrips
+  };
 }
 
 module.exports = tripController();

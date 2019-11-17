@@ -8,7 +8,7 @@ const {
 const { authenticate } = require('../controllers/auth_controller');
 
 // Middleware
-Booking.use(authenticate);
+// Booking.use(authenticate);
 
 // Routes
 Booking.post('/', createBooking);

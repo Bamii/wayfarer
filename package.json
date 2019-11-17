@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start:dev": "DEBUG=app,app:* nodemon server.js",
-    "start": "NODE_ENV=prod node server.js",
+    "start:dev": "set DEBUG=app,app:* && nodemon server.js",
+    "start": "set NODE_ENV=prod && node server.js",
     "test": "mocha --exit --timeout 10000",
     "test-travis": "mocha --exit",
     "prettier": "prettier '**/*.+(js|json|jsx|css)'",
@@ -52,7 +52,8 @@
     "mocha": "^6.1.4",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.1",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "setprototypeof": "^1.2.0"
   },
   "nodemonConfig": {
     "restartable": "rs",

@@ -64,32 +64,32 @@ function authController() {
 
   function authenticate(req, res, next) {
     // uses passport's jwt strategy for jwt authentications.
-    // return passport.authenticate('jwt', { session: false }, (err, user) => {
+    return passport.authenticate('jwt', { session: false }, (err, user) => {
 
-    //   if (err) {
-    //     res
-    //       .status(401)
-    //       .send(
-    //         buildResponse('error', "Authentication required. You're not allowed to view this page!")
-    //       );
-    //   }
+      if (err) {
+        res
+          .status(401)
+          .send(
+            buildResponse('error', "Authentication required. You're not allowed to view this page!")
+          );
+      }
 
-    //   if (user) {
-    //     req.user = { user_id: user.id, is_admin: user.is_admin };
-    //     next();
-    //   } else if (!user) {
-    //     res
-    //       .status(401)
-    //       .send(
-    //         buildResponse('error', "Authentication required. You're not allowed to view this page!")
-    //       );
-    //   }
-    // })(req, res, next);
-    res
-      .status(401)
-      .send(
-        buildResponse('error', "Authentication required. You're not allowed to view this page!")
-      );
+      if (user) {
+        req.user = { user_id: user.id, is_admin: user.is_admin };
+        next();
+      } else if (!user) {
+        res
+          .status(401)
+          .send(
+            buildResponse('error', "Authentication required. You're not allowed to view this page!")
+          );
+      }
+    })(req, res, next);
+    // res
+    //   .status(401)
+    //   .send(
+    //     buildResponse('error', "Authentication required. You're not allowed to view this page!")
+    //   );
   }
 
   return {

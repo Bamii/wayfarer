@@ -1,23 +1,28 @@
-const debug = require('debug')('mid-js');
+const debug = require('debug')('app:mid-js');
+const { is } = require('../utils/helpers');
 
 function middleware(options) {
-  const { rootMiddleWares, path, paths, auth } = options;
-  return function(req, res, next) {
-    debug(auth);
-    debug(req.originalUrl);
-    // if (auth) {
-    const { middleware, paths } = auth;
-    const urlPath = paths || path;
+  const { app, rootMiddleWares, path, paths, auth, baseUrl } = options;
+  if (auth) {
+    const { middleware: authMiddleware, paths: authPaths } = auth;
+    
+    // root middleware
+    for (let rm of rootMiddleWares) {
+      if (is('array', rm)) {
+        app.use(rm[0], rm[1]);
+      } else {
+        app.use(`${baseUrl}/*`, rm);
+      }
+    }
 
-    // find req.url
-    // rootMiddleWares.forEach(mw => req.url && app.use(mw));
+    // auth middleware
+    for (let p of authPaths) {
+      app.use(`${baseUrl}${p}`, authMiddleware)
+    }
 
-    // auth middleware.
-    paths.forEach(p => debug(p));
-    // authPaths.forEach(p => req.url === p && app.use(authMiddleware));
-    next();
-    // }
-  };
+    // app middlewares
+    
+  }
 }
 
 module.exports = middleware;

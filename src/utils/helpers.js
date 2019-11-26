@@ -12,12 +12,19 @@ const getType = o =>
 
 const is = (type, value) => lowerCase(getType(value)) === lowerCase(type);
 
-const lowerCase = val => val.lowerCase();
+const lowerCase = val => val.toLowerCase();
 
 const findMissingFields = (data, fields) =>
   fields.reduce((acc, curr) => (!data.hasOwnProperty(curr) ? acc.concat(curr) : acc), []);
 
 const existsIn = (el, arr) => (arr.find(ele => ele === el) === undefined ? true : false);
+
+const appendTo = (arr, el, d) => d === 'f' ? [el].concat(arr) : arr.concat(el);
+
+const append = (arr, el) => {
+  const last = arr.pop();
+  return [...arr, el, last];
+}
 
 // Password utilities
 const hashPassword = ({ password, saltingRounds = 10 }) => bcrypt.hashSync(password, saltingRounds);
@@ -47,5 +54,7 @@ module.exports = {
   comparePassword,
   generateToken,
   is,
-  existsIn
+  existsIn,
+  appendTo,
+  append
 };

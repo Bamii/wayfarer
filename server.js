@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const { getVersionNumber } = require('./src/utils/helpers');
 const routes = require('./src/routes');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3003;
 const { middleware } = require('./src/middlewares');
 const composer = require('./src/middlewares/mid');
 const { authenticate } = require('./src/controllers/auth_controller');
@@ -24,7 +24,10 @@ composer({
   rootMiddleWares: [
     morgan('tiny'),
     bodyParser.urlencoded({ extended: true }),
-    (q, s, n) => { debug('first middle:::'); n(); },
+    (q, s, n) => {
+      debug('first middle:::');
+      n();
+    },
     bodyParser.json({ type: 'application/json' }),
     cookieParser(),
     session({
@@ -36,7 +39,13 @@ composer({
     express.static(path.join(__dirname, 'public')),
     ['/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css'))],
     ['/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js'))],
-    ['/api/v1/auth/teaspoon/', (q, s, n) => { debug('second middle:::'); n(); }],
+    [
+      '/api/v1/auth/teaspoon/',
+      (q, s, n) => {
+        debug('second middle:::');
+        n();
+      }
+    ],
     ['/js', express.static(path.join(__dirname, 'node_modules/jquery/dist'))]
   ],
   auth: {
@@ -46,9 +55,8 @@ composer({
 });
 
 require('./src/utils/passport')(app),
-
-// Views Engine
-app.set('views', path.join(__dirname, 'src/views'));
+  // Views Engine
+  app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 
 // App routes

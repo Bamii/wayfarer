@@ -4,9 +4,8 @@ const { signin, signup, authenticate } = require('../controllers/auth_controller
 const { checkForValidPath, checkMissingField, middleware } = require('../middlewares');
 const { buildResponse } = require('../utils/helpers');
 
-
 // middlewares
-Auth.use(checkForValidPath(['/', '/signin', '/signup', '/teapot', '/teaspoon']));
+// Auth.use(checkForValidPath(['/', '/signin', '/signup', '/teapot', '/teaspoon']));
 // Auth.use(
 //   middleware({
 //     baseUrl: '/api/v1',

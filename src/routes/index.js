@@ -8,13 +8,20 @@ const { authenticate } = require('../controllers/auth_controller');
 const { checkForValidPath } = require('../middlewares');
 
 // Routes Middleware.
-// routes.use(checkForValidPath(['/', '/auth', '/trips', '/bookings']));
+// routes.use(checkForValidPath(['/', '/auth', '/trips', '/bookings', '/test']));
 
 // routes
 routes.get('/', (req, res) => res.send({ message: 'Welcome to the Wayfarer API!' }));
 routes.use('/auth', auth);
 routes.use('/trips', trip);
 routes.use('/bookings', booking);
+routes.use('/test', function(req, res, next) {
+  console.log(req.body);
+
+  res.send({
+    ok: true
+  });
+});
 
 // exports.
 module.exports = routes;

@@ -1,8 +1,13 @@
 const url = require('url');
 const express = require('express').Router();
 const debug = require('debug')('app:middlewares');
-const { buildResponse, findMissingFields, existsIn, appendTo, append } = require('../utils/helpers');
-var setPrototypeOf = require('setprototypeof');
+const {
+  buildResponse,
+  findMissingFields,
+  existsIn,
+  appendTo,
+  append
+} = require('../utils/helpers');
 
 function flatten(array, result) {
   for (var i = 0; i < array.length; i++) {
@@ -53,5 +58,5 @@ function checkMissingField(fields) {
 
 module.exports = {
   checkForValidPath,
-  checkMissingField,
+  checkMissingField
 };

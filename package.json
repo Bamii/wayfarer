@@ -9,10 +9,10 @@
     "test": "mocha --exit --timeout 10000",
     "test-travis": "mocha --exit",
     "prettier": "prettier '**/*.+(js|json|jsx|css)'",
-    "format": "yarn run prettier -- --write",
+    "format": "npm run prettier -- --write",
     "lint": "eslint src --fix",
-    "beautify": "yarn run lint && yarn run prettier -- --list-different",
-    "validate": "yarn run beautify && yarn run test"
+    "beautify": "npm run lint && npm run prettier -- --list-different",
+    "validate": "npm run beautify && npm run test"
   },
   "author": "Ayobami Ayo-Salami",
   "license": "ISC",
@@ -67,7 +67,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn run test"
+      "pre-push": "npm run test"
     }
   }
 }

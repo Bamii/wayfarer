@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const { getVersionNumber } = require('./src/utils/helpers');
 const routes = require('./src/routes');
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3000;
 const { middleware } = require('./src/middlewares');
 const composer = require('./src/middlewares/mid');
 const { authenticate } = require('./src/controllers/auth_controller');

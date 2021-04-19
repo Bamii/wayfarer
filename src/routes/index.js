@@ -17,7 +17,7 @@ routes.use('/trips', trip);
 routes.use('/bookings', booking);
 routes.use('/test', function(req, res, next) {
   console.log(req.body);
-
+  res.set('Content-Type', 'application/json');
   res.send({
     ok: true
   });
